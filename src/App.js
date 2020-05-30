@@ -54,6 +54,11 @@ class App extends Component {
 		navigate('/meetings');
 	};
 
+	addMeeting = (meetingName) => {
+		const ref = firebase.database().ref(`meetings/${this.state.user.uid}`);
+		ref.push({ meetingName });
+	};
+
 	render() {
 		return (
 			<div>
@@ -62,7 +67,7 @@ class App extends Component {
 				<Router>
 					<Home user={this.state.user} path='/' />
 					<Login path='/login'></Login>
-					<Meetings path='/meetings'></Meetings>
+					<Meetings path='/meetings' addMeeting={this.addMeeting}></Meetings>
 					<Register path='/register' registerUser={this.registerUser}></Register>
 				</Router>
 			</div>
