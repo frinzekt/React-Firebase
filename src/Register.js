@@ -1,23 +1,48 @@
 import React, { Component } from 'react';
-
+import FormError from './FormError';
+import firebase from './Firebase';
 class Welcome extends Component {
 	state = {
 		displayName: '',
 		email: '',
 		passOne: '',
 		passTwo: '',
+		errorMessage: null,
 	};
 
 	handleChange = (e) => {
 		const { name, value } = e.target;
 
-		this.setState({ [name]: value });
+		this.setState({ [name]: value }, () => {
+			if (this.state.passOne !== this.state.passTwo) {
+				this.setState({ errorMessage: 'Passwords do not match' });
+			} else {
+				this.setState({ errorMessage: '' });
+			}
+		});
+	};
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+		const { displayName, email, passOne } = this.state;
+		const registrationInfo = {
+			displayName,
+			email,
+			password: passOne,
+		};
+		firebase.auth.createUserWithEmailAndPassword(registrationInfo.email, registrationInfo.password).catch((error) => {
+			if (error.message !== null) {
+				this.setState({ errorMessage: error.message });
+			} else {
+				this.setState({ errorMessage: null });
+			}
+		});
 	};
 	render() {
 		const { user } = this.props;
 
 		return (
-			<form className='mt-3'>
+			<form className='mt-3' onSubmit={this.handleSubmit}>
 				<div className='container'>
 					<div className='row justify-content-center'>
 						<div className='col-lg-8'>
@@ -25,6 +50,7 @@ class Welcome extends Component {
 								<div className='card-body'>
 									<h3 className='font-weight-light mb-3'>Register</h3>
 									<div className='form-row'>
+										{this.state.errorMessage && <FormError message={this.state.errorMessage}></FormError>}
 										<section className='col-sm-12 form-group'>
 											<label className='form-control-label sr-only' htmlFor='displayName'>
 												Display Name
