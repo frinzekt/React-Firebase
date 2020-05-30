@@ -26,6 +26,28 @@ class App extends Component {
 					displayName: user.displayName,
 					userId: user.uid,
 				});
+
+				const meetingsRef = firebase.database().ref(`meetings/${user.uid}`);
+				meetingsRef.on('value', (snap) => {
+					const meetings = snap.val();
+					const meetingsList = [];
+					console.log(meetings);
+					for (let item in meetings) {
+						meetingsList.push({
+							meetingID: item,
+							meetingName: meetings[item].meetingName,
+						});
+					}
+
+					this.setState({
+						meetings: meetingsList,
+						howManyMeetings: meetingsList.length,
+					});
+				});
+			} else {
+				this.setState({
+					user: null,
+				});
 			}
 		});
 	}
