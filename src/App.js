@@ -89,7 +89,7 @@ class App extends Component {
 				<Router>
 					<Home user={this.state.user} path='/' />
 					<Login path='/login'></Login>
-					<Meetings path='/meetings' addMeeting={this.addMeeting}></Meetings>
+					<Meetings path='/meetings' addMeeting={this.addMeeting} meetings={this.state.meetings}></Meetings>
 					<Register path='/register' registerUser={this.registerUser}></Register>
 				</Router>
 			</div>
