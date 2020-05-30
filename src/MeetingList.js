@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import firebase from './Firebase';
 import { GoTrashcan } from 'react-icons/go';
+import { FaLink } from 'react-icons/fa';
 import { navigate } from '@reach/router';
 
 const MeetingList = ({ meetings, userID }) => {
@@ -16,6 +17,13 @@ const MeetingList = ({ meetings, userID }) => {
 					<section className='btn-group align-self-center'>
 						<button className='btn btn-sm btn-outline-secondary' title='Delete Meeting' onClick={deleteMeeting(meetingID)}>
 							<GoTrashcan></GoTrashcan>
+						</button>
+						<button
+							className='btn btn-sm btn-outline-secondary'
+							title='Check In'
+							onClick={() => navigate(`/checkin/${userID}/${meetingID}`)}
+						>
+							<FaLink></FaLink>
 						</button>
 					</section>
 					<section className='pl-3 text-left align-self-center'>{meetingName}</section>
