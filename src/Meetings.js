@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MeetingList from './MeetingList';
-class Welcome extends Component {
+class Meeting extends Component {
 	state = {
 		meetingName: '',
 	};
@@ -17,7 +17,7 @@ class Welcome extends Component {
 	};
 
 	render() {
-		const { user } = this.props;
+		const { userID } = this.props;
 
 		return (
 			<div className='container mt-4'>
@@ -57,7 +57,7 @@ class Welcome extends Component {
 
 							{this.props.meetings && (
 								<div className='list-group'>
-									<MeetingList meetings={this.props.meetings}></MeetingList>
+									<MeetingList meetings={this.props.meetings} userID={userID}></MeetingList>
 								</div>
 							)}
 						</div>
@@ -68,4 +68,4 @@ class Welcome extends Component {
 	}
 }
 
-export default Welcome;
+export default Meeting;

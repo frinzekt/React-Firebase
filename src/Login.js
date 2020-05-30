@@ -3,7 +3,7 @@ import firebase from './Firebase';
 import FormError from './FormError';
 import { navigate } from '@reach/router';
 
-class Welcome extends Component {
+class Login extends Component {
 	state = {
 		email: '',
 		password: '',
@@ -87,4 +87,4 @@ class Welcome extends Component {
 	}
 }
 
-export default Welcome;
+export default Login;

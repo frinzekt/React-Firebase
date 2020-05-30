@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FormError from './FormError';
 import firebase from './Firebase';
-class Welcome extends Component {
+class Register extends Component {
 	state = {
 		displayName: '',
 		email: '',
@@ -123,4 +123,4 @@ class Welcome extends Component {
 	}
 }
 
-export default Welcome;
+export default Register;
