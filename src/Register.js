@@ -32,6 +32,7 @@ class Welcome extends Component {
 		};
 		try {
 			await firebase.auth().createUserWithEmailAndPassword(registrationInfo.email, registrationInfo.password);
+			this.props.registerUser(registrationInfo.displayName);
 		} catch (error) {
 			if (error.message !== null) {
 				this.setState({ errorMessage: error.message });

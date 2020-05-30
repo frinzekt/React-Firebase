@@ -1,6 +1,6 @@
 // Import Libraries
 import React, { Component } from 'react';
-import { Router } from '@reach/router';
+import { Router, navigate } from '@reach/router';
 import firebase from './Firebase';
 
 // Import Components
@@ -14,6 +14,8 @@ import Meetings from './Meetings';
 class App extends Component {
 	state = {
 		user: '',
+		displayName: null,
+		userId: null,
 	};
 
 	componentDidMount() {
@@ -43,16 +45,33 @@ class App extends Component {
 		this.setState({ user: '' });
 	};
 
+	registerUser = async (displayName) => {
+		//WHENEVER SOMETHING CHANGES IN THE REGISTRATION, THIS IS CALLED
+
+		await firebase.auth().onAuthStateChanged(async (user) => {
+			await user.updateProfile({
+				displayName,
+			});
+			this.setState({
+				user: user,
+				displayName: user.displayName,
+				userId: user.uid,
+			});
+		});
+
+		navigate('/meetings');
+	};
+
 	render() {
 		return (
 			<div>
 				<Navigation user={this.state.user} logOut={this.logOut} />
-				{this.state.user && <Welcome user={this.state.user} />}
+				{this.state.user && <Welcome user={this.state.displayName} />}
 				<Router>
 					<Home user={this.state.user} path='/' />
-					<Login path='/login' user={this.state.user}></Login>
-					<Meetings path='/meetings' user={this.state.user}></Meetings>
-					<Register path='/register' user={this.state.user}></Register>
+					<Login path='/login'></Login>
+					<Meetings path='/meetings'></Meetings>
+					<Register path='/register' registerUser={this.registerUser}></Register>
 				</Router>
 			</div>
 		);
