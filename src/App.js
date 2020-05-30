@@ -1,5 +1,9 @@
-// Import React
+// Import Libraries
 import React, { Component } from 'react';
+import { Router } from '@reach/router';
+import firebase from './Firebase';
+
+// Import Components
 import Home from './Home';
 import Welcome from './Welcome';
 import Navigation from './Navigation';
@@ -11,7 +15,28 @@ class App extends Component {
 	state = {
 		user: '',
 	};
-  }
+
+	componentDidMount() {
+		// REFERENCE TO THE USER UNDER THE ROOT
+		const ref = firebase.database().ref('user');
+		// OTHER WAYS TO DO IT IS TO GET THE REFERENCE FROM THE ROOT THE MANUEVER IN THE CHILD
+		// const rootRef = firebase.database().ref();
+		// const speedRef = rootRef.child('speed');
+		// everytime ethe reference to the speeed changes
+		// call this callback function
+		// speedRef.on('value', (snap) => {
+		// 	this.setState({
+		// 		speed: snap.val(),
+		// 	});
+		// });
+
+		// GRABS A SNAPSHOT OF WHAT THE DATA LOOKS
+		ref.on('value', (snap) => {
+			this.setState({
+				user: snap.val(),
+			});
+		});
+	}
 
 	logOut = (e) => {
 		e.preventDefault();
