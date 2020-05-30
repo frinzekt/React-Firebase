@@ -22,7 +22,7 @@ class Welcome extends Component {
 		});
 	};
 
-	handleSubmit = (e) => {
+	handleSubmit = async (e) => {
 		e.preventDefault();
 		const { displayName, email, passOne } = this.state;
 		const registrationInfo = {
@@ -30,13 +30,15 @@ class Welcome extends Component {
 			email,
 			password: passOne,
 		};
-		firebase.auth.createUserWithEmailAndPassword(registrationInfo.email, registrationInfo.password).catch((error) => {
+		try {
+			await firebase.auth().createUserWithEmailAndPassword(registrationInfo.email, registrationInfo.password);
+		} catch (error) {
 			if (error.message !== null) {
 				this.setState({ errorMessage: error.message });
 			} else {
 				this.setState({ errorMessage: null });
 			}
-		});
+		}
 	};
 	render() {
 		const { user } = this.props;
