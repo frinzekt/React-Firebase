@@ -6,7 +6,7 @@ class Welcome extends Component {
 
 		return (
 			<div className='text-center mt-4'>
-				<span className='text-secondary font-weight-bold pl-1'>Welcome {user}</span>
+				<h1 className='text-primary'>Meetings</h1>
 			</div>
 		);
 	}
