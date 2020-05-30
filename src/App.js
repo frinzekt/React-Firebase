@@ -30,9 +30,11 @@ class App extends Component {
 		});
 	}
 
-	logOut = (e) => {
+	logOut = async (e) => {
 		e.preventDefault();
-		this.setState({ user: '' });
+		this.setState({ user: null, displayName: null, userId: null });
+		await firebase.auth().signOut();
+		navigate('/login');
 	};
 
 	registerUser = async (displayName) => {
