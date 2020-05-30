@@ -19,24 +19,14 @@ class App extends Component {
 	};
 
 	componentDidMount() {
-		// REFERENCE TO THE USER UNDER THE ROOT
-		const ref = firebase.database().ref('user');
-		// OTHER WAYS TO DO IT IS TO GET THE REFERENCE FROM THE ROOT THE MANUEVER IN THE CHILD
-		// const rootRef = firebase.database().ref();
-		// const speedRef = rootRef.child('speed');
-		// everytime ethe reference to the speeed changes
-		// call this callback function
-		// speedRef.on('value', (snap) => {
-		// 	this.setState({
-		// 		speed: snap.val(),
-		// 	});
-		// });
-
-		// GRABS A SNAPSHOT OF WHAT THE DATA LOOKS
-		ref.on('value', (snap) => {
-			this.setState({
-				user: snap.val(),
-			});
+		firebase.auth().onAuthStateChanged(async (user) => {
+			if (user) {
+				this.setState({
+					user: user,
+					displayName: user.displayName,
+					userId: user.uid,
+				});
+			}
 		});
 	}
 
@@ -66,7 +56,7 @@ class App extends Component {
 		return (
 			<div>
 				<Navigation user={this.state.user} logOut={this.logOut} />
-				{this.state.user && <Welcome user={this.state.displayName} />}
+				{this.state.user && <Welcome username={this.state.displayName} />}
 				<Router>
 					<Home user={this.state.user} path='/' />
 					<Login path='/login'></Login>
