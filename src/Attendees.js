@@ -4,7 +4,7 @@ import firebase from './Firebase';
 // MY COMPONENTS
 import AttendeeList from './AttendeeList';
 
-const Attendees = ({ attendees, userID, meetingID }) => {
+const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 	const [state, setState] = useState({
 		displayAttendees: [],
 	});
@@ -13,7 +13,6 @@ const Attendees = ({ attendees, userID, meetingID }) => {
 		const ref = firebase.database().ref(`meetings/${userID}/${meetingID}/attendees`);
 		ref.on('value', (snap) => {
 			const attendees = snap.val();
-			console.log(attendees);
 			const attendeesList = [];
 
 			// CONVERSION OF WHAT IS OBTAINED IN THE ID TO AN OBJECT WITH ID
@@ -37,7 +36,7 @@ const Attendees = ({ attendees, userID, meetingID }) => {
 					<h1 className='font-weight-light text-center'>Attendees</h1>
 				</div>
 			</div>
-			<AttendeeList attendees={state.displayAttendees} userID={userID}></AttendeeList>
+			<AttendeeList attendees={state.displayAttendees} userID={userID} meetingID={meetingID} adminUser={adminUser}></AttendeeList>
 		</div>
 	);
 };
