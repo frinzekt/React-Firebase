@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import firebase from './Firebase';
 
+//ICONS
+import { FaUndo } from 'react-icons/fa';
+
 // MY COMPONENTS
 import AttendeeList from './AttendeeList';
 
@@ -51,14 +54,25 @@ const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 					<h1 className='font-weight-light text-center'>Attendees</h1>
 					<div className='card bg-light mb-4'>
 						<div className='card-body text-center'>
-							<input
-								type='text'
-								name='searchQuery'
-								value={state.searchQuery}
-								placeholder='Search Attendees'
-								className='form-control'
-								onChange={handleChange}
-							/>
+							<div className='input-group input-group-lg'>
+								<input
+									type='text'
+									name='searchQuery'
+									value={state.searchQuery}
+									placeholder='Search Attendees'
+									className='form-control'
+									onChange={handleChange}
+								/>
+								<div className='input-group-append'>
+									<button
+										className='btn btn-sm btn-outline-info'
+										title='Reset Search'
+										onClick={() => setState({ ...state, searchQuery: '' })}
+									>
+										<FaUndo></FaUndo>
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
