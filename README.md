@@ -1,3 +1,4 @@
+![Node.js CI](https://github.com/frinzekt/React-Firebase/workflows/Node.js%20CI/badge.svg)
 # React: Single Page Applications
 
 This is the repository for my course React Single Page Applications. The full course is available on LinkedIn Learning.
