@@ -18,11 +18,12 @@ const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 			// CONVERSION OF WHAT IS OBTAINED IN THE ID TO AN OBJECT WITH ID
 			try {
 				Object.keys(attendees).forEach((attendeeId) => {
-					const { attendeeName, attendeeEmail } = attendees[attendeeId];
+					const { attendeeName, attendeeEmail, star } = attendees[attendeeId];
 					attendeesList.push({
 						attendeeId,
 						attendeeName,
 						attendeeEmail,
+						star,
 					});
 				});
 			} catch (err) {} //SILENT ERROR: HAPPENS ONLY WHEN THERE IS NO ATTENDEES
