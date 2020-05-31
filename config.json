@@ -1,0 +1,8 @@
+// THIS IS CONCERNED IN THE RULES FOR READING AND WRITING
+// SEE Firebase >> Database >> Rules : https://console.firebase.google.com/u/0/project/react-spas-frinze/database/react-spas-frinze/data
+{
+    "rules": {
+        ".read": true,
+        ".write": true
+    }
+}
