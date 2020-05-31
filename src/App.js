@@ -11,6 +11,7 @@ import Login from './Login';
 import Register from './Register';
 import Meetings from './Meetings';
 import CheckIn from './CheckIn';
+import Attendees from './Attendees';
 
 class App extends Component {
 	state = {
@@ -32,7 +33,6 @@ class App extends Component {
 				meetingsRef.on('value', (snap) => {
 					const meetings = snap.val();
 					const meetingsList = [];
-					console.log(meetings);
 					for (let item in meetings) {
 						meetingsList.push({
 							meetingID: item,
@@ -91,6 +91,7 @@ class App extends Component {
 					<Home user={this.state.user} path='/' />
 					<Login path='/login'></Login>
 					<Meetings path='/meetings' addMeeting={this.addMeeting} meetings={this.state.meetings} userID={this.state.userId}></Meetings>
+					<Attendees path='/attendees/:userID/:meetingID' adminUser={this.state.userId}></Attendees>
 					<CheckIn path='/checkin/:userID/:meetingID'></CheckIn>
 					<Register path='/register' registerUser={this.registerUser}></Register>
 				</Router>
