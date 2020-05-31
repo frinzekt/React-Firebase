@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [12.x]
 
     steps: 
     - name: Checkout Repo
@@ -24,8 +24,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
       run: yarn install
-    - name: Build The Folder
-      run: yarn build
+    - name: Build The Build
+      run: yarn build CI=false
     - name: Deploy to Firebase
       uses: w9jds/firebase-action@master
       with:
