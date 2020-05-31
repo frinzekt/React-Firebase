@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import firebase from './Firebase';
 
 //ICONS
-import { FaUndo } from 'react-icons/fa';
+import { FaUndo, FaRandom } from 'react-icons/fa';
 
 // MY COMPONENTS
 import AttendeeList from './AttendeeList';
@@ -10,6 +10,7 @@ import AttendeeList from './AttendeeList';
 const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 	const [state, setState] = useState({
 		displayAttendees: [],
+		allAttendees: [],
 		searchQuery: '',
 	});
 
@@ -17,6 +18,18 @@ const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 		e.preventDefault();
 		const { name, value } = e.target;
 		setState({ ...state, [name]: value });
+	};
+
+	const chooseRandom = () => {
+		const randomAttendeeIndex = Math.floor(Math.random() * state.allAttendees.length);
+		resetQuery();
+		//ALL ATTENDEES IS THE EXACT COPY OF THE DISPLAY ATTENDEES EXCEPT ALLATTENDEES HAS ALL
+		// WHILE DISPLAY ATTENDEES IS ONLY CONCERNED ABOUT THE ACTUAL ATTENDEES
+		setState({ ...state, displayAttendees: [state.allAttendees[randomAttendeeIndex]] });
+	};
+
+	const resetQuery = () => {
+		setState({ ...state, searchQuery: '', displayAttendees: state.allAttendees });
 	};
 
 	useEffect(() => {
@@ -38,11 +51,10 @@ const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 				});
 			} catch (err) {} //SILENT ERROR: HAPPENS ONLY WHEN THERE IS NO ATTENDEES
 
-			setState({ ...state, displayAttendees: attendeesList });
+			setState({ ...state, displayAttendees: attendeesList, allAttendees: attendeesList });
 		});
 	}, []);
 
-	console.log(state.displayAttendees);
 	const filteredAttendees = state.displayAttendees.filter(({ attendeeName }) => {
 		return attendeeName.toLowerCase().match(state.searchQuery.toLowerCase());
 	});
@@ -64,12 +76,11 @@ const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 									onChange={handleChange}
 								/>
 								<div className='input-group-append'>
-									<button
-										className='btn btn-sm btn-outline-info'
-										title='Reset Search'
-										onClick={() => setState({ ...state, searchQuery: '' })}
-									>
+									<button className='btn btn-sm btn-outline-info' title='Reset Search' onClick={resetQuery}>
 										<FaUndo></FaUndo>
+									</button>
+									<button className='btn btn-sm btn-outline-info' title='Pick a Random Attendee' onClick={chooseRandom}>
+										<FaRandom></FaRandom>
 									</button>
 								</div>
 							</div>
