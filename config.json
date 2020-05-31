@@ -1,8 +1,17 @@
 // THIS IS CONCERNED IN THE RULES FOR READING AND WRITING
 // SEE Firebase >> Database >> Rules : https://console.firebase.google.com/u/0/project/react-spas-frinze/database/react-spas-frinze/data
-{
+{ // THE RULES HERE APPLY STARTING FROM THE ROOT
     "rules": {
         ".read": true,
-        ".write": true
+        ".write": "auth!=null", // ONLY AUTHENTICATED USER CAN WRITE
+        "meetings": {
+            "$meetingID": {
+                "$user_id": {
+                    "attendees": { //route of meetings -> specific meeting ID -> specific user meeting
+                        ".write": true // anything here, you can write stuff
+                    }
+                }
+            }
+        }
     }
 }
