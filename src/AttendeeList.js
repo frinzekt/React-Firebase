@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from './Firebase';
 
 // ICONS
-import { GoTrashcan, GoStar } from 'react-icons/go';
+import { GoTrashcan, GoStar, GoMail } from 'react-icons/go';
 
 const AttendeeList = ({ attendees, adminUser, userID, meetingID }) => {
 	const isAdmin = adminUser === userID;
@@ -27,7 +27,7 @@ const AttendeeList = ({ attendees, adminUser, userID, meetingID }) => {
 
 	return (
 		<div className='row justify-content-center'>
-			{attendees.map(({ attendeeId, attendeeName, star }) => (
+			{attendees.map(({ attendeeId, attendeeName, star, attendeeEmail }) => (
 				<div className='col-8 col-sm-6 col-md-4 col-lg-3 mb-2 p-0 px-1' key={attendeeId}>
 					<div className='card '>
 						<div className={`card-body px-3 py-2 d-flex align-items-center ${isAdmin ? '' : 'justify-content-center'}`}>
@@ -48,6 +48,9 @@ const AttendeeList = ({ attendees, adminUser, userID, meetingID }) => {
 									>
 										<GoTrashcan></GoTrashcan>
 									</button>
+									<a href={`mailto:${attendeeEmail}`} className='btn btn-sm btn-outline-secondary' title='Mail Attendee'>
+										<GoMail></GoMail>
+									</a>
 								</div>
 							)}
 							<div>{attendeeName}</div>

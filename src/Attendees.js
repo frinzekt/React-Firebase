@@ -7,7 +7,14 @@ import AttendeeList from './AttendeeList';
 const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 	const [state, setState] = useState({
 		displayAttendees: [],
+		searchQuery: '',
 	});
+
+	const handleChange = (e) => {
+		e.preventDefault();
+		const { name, value } = e.target;
+		setState({ ...state, [name]: value });
+	};
 
 	useEffect(() => {
 		const ref = firebase.database().ref(`meetings/${userID}/${meetingID}/attendees`);
@@ -28,18 +35,35 @@ const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 				});
 			} catch (err) {} //SILENT ERROR: HAPPENS ONLY WHEN THERE IS NO ATTENDEES
 
-			setState({ displayAttendees: attendeesList });
+			setState({ ...state, displayAttendees: attendeesList });
 		});
 	}, []);
+
+	console.log(state.displayAttendees);
+	const filteredAttendees = state.displayAttendees.filter(({ attendeeName }) => {
+		return attendeeName.toLowerCase().match(state.searchQuery.toLowerCase());
+	});
 
 	return (
 		<div className='container mt-4'>
 			<div className='row justify-content-center'>
 				<div className='col-md-8'>
 					<h1 className='font-weight-light text-center'>Attendees</h1>
+					<div className='card bg-light mb-4'>
+						<div className='card-body text-center'>
+							<input
+								type='text'
+								name='searchQuery'
+								value={state.searchQuery}
+								placeholder='Search Attendees'
+								className='form-control'
+								onChange={handleChange}
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
-			<AttendeeList attendees={state.displayAttendees} userID={userID} meetingID={meetingID} adminUser={adminUser}></AttendeeList>
+			<AttendeeList attendees={filteredAttendees} userID={userID} meetingID={meetingID} adminUser={adminUser}></AttendeeList>
 		</div>
 	);
 };
