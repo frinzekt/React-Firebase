@@ -1,10 +1,18 @@
 import React from 'react';
+import firebase from './Firebase';
 
 // ICONS
 import { GoTrashcan } from 'react-icons/go';
 
 const AttendeeList = ({ attendees, adminUser, userID, meetingID }) => {
 	const isAdmin = adminUser === userID;
+
+	const deleteAttendee = (meetingID, attendeeID) => (e) => {
+		e.preventDefault();
+		const ref = firebase.database().ref(`meetings/${adminUser}/${meetingID}/attendees/${attendeeID}`);
+		ref.remove();
+	};
+
 	return (
 		<div className='row justify-content-center'>
 			{attendees.map(({ attendeeId, attendeeName }) => (
@@ -16,7 +24,7 @@ const AttendeeList = ({ attendees, adminUser, userID, meetingID }) => {
 									<button
 										className='btn btn-sm btn-outline-secondary'
 										title='Delete Attendee'
-										// onClick={deleteAttendee(meetingID, attendeeID)}
+										onClick={deleteAttendee(meetingID, attendeeId)}
 									>
 										<GoTrashcan></GoTrashcan>
 									</button>

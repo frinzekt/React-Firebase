@@ -16,14 +16,16 @@ const Attendees = ({ attendees, userID, meetingID, adminUser }) => {
 			const attendeesList = [];
 
 			// CONVERSION OF WHAT IS OBTAINED IN THE ID TO AN OBJECT WITH ID
-			Object.keys(attendees).forEach((attendeeId) => {
-				const { attendeeName, attendeeEmail } = attendees[attendeeId];
-				attendeesList.push({
-					attendeeId,
-					attendeeName,
-					attendeeEmail,
+			try {
+				Object.keys(attendees).forEach((attendeeId) => {
+					const { attendeeName, attendeeEmail } = attendees[attendeeId];
+					attendeesList.push({
+						attendeeId,
+						attendeeName,
+						attendeeEmail,
+					});
 				});
-			});
+			} catch (err) {} //SILENT ERROR: HAPPENS ONLY WHEN THERE IS NO ATTENDEES
 
 			setState({ displayAttendees: attendeesList });
 		});
