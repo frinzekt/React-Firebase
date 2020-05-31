@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import firebase from './Firebase';
 
+// MY COMPONENTS
+import AttendeeList from './AttendeeList';
+
 const Attendees = ({ attendees, userID, meetingID }) => {
 	const [state, setState] = useState({
 		displayAttendees: [],
@@ -34,7 +37,7 @@ const Attendees = ({ attendees, userID, meetingID }) => {
 					<h1 className='font-weight-light text-center'>Attendees</h1>
 				</div>
 			</div>
-			List Goes Here
+			<AttendeeList attendees={state.displayAttendees} userID={userID}></AttendeeList>
 		</div>
 	);
 };
